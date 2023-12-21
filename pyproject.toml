@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccwc"
+version = "0.0.1"
+authors = [
+  { name="Augustin Marks de Chabris", email="augustinlmdc@gmail.com" },
+]
+description = "Coding Challenge #1: Create a copy of the wc tool"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
