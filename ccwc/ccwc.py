@@ -25,12 +25,9 @@ def ccwc(namespace, file_path):
 
     # Exclude this one if default
     if namespace.character and not sum([namespace.byte, namespace.line, namespace.word]) == 3:
-        multibyte_encodings = ["UTF-8", "UTF-16", "UTF-32", "GB18030", "Shift-JIS", "Big5", "EUC-KR"]
-        
-        # If encoding does not support multibyte characters, same as -c option
         file_encoding = locale.getpreferredencoding()
-        with open(file_path, 'rb', encoding=file_encoding) as file:
-            output.append(len(file.read()))
+        with open_file(file_path, 'rb') as file:
+            output.append(len(file.read().decode(file_encoding)))
 
     return output
 
