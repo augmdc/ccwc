@@ -1,4 +1,5 @@
 import sys
+import locale
 
 def ccwc(namespace, file_path):
     output = []
@@ -24,7 +25,12 @@ def ccwc(namespace, file_path):
 
     # Exclude this one if default
     if namespace.character and not sum([namespace.byte, namespace.line, namespace.word]) == 3:
-        with open_file(file_path, 'r') as file:
-            output.append(sum(len(line) for line in file))
+        multibyte_encodings = ["UTF-8", "UTF-16", "UTF-32", "GB18030", "Shift-JIS", "Big5", "EUC-KR"]
+        
+        # If encoding does not support multibyte characters, same as -c option
+        file_encoding = locale.getpreferredencoding()
+        with open(file_path, 'rb', encoding=file_encoding) as file:
+            output.append(len(file.read()))
 
     return output
+
