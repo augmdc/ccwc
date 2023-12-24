@@ -4,7 +4,6 @@ The command-line interface for the ccwc
 import argparse
 from pathlib import Path
 import sys
-from .ccwc import ccwc
 
 def main():
     parser = argparse.ArgumentParser(
