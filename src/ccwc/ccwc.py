@@ -25,7 +25,6 @@ def ccwc(namespace, file_path):
 
     # Exclude this one if default
     if namespace.character and not sum([namespace.byte, namespace.line, namespace.word]) == 3:
-    # Check if input is sys.stdin
         if file_path is sys.stdin:
             # Count characters directly from sys.stdin
             output.append(len(sys.stdin.read()))
