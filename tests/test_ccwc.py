@@ -5,13 +5,14 @@ import sys
 import os
 from io import StringIO
 
-# Require the following in order to import package properly and avoid circular imports
-ccwc_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ccwc")
-sys.path.append(ccwc_path)
+# Add the src directory to sys.path
+project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+src_dir = os.path.join(project_dir, 'src')
+sys.path.insert(0, src_dir)
+
 from ccwc import ccwc
 
 class TestCCWC(unittest.TestCase):
-    @unittest.skip("demonstrating skipping")
     def test_byte_count(self):
         namespace = Namespace(byte=True, line=False, word=False, character=False, path=None)
 
@@ -23,7 +24,6 @@ class TestCCWC(unittest.TestCase):
         os.remove(file_path)
         self.assertEqual(result, [12])
 
-    @unittest.skip("demonstrating skipping")
     def test_line_count(self):
         namespace = Namespace(byte=False, line=True, word=False, character=False)
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as temp_file:
@@ -34,7 +34,6 @@ class TestCCWC(unittest.TestCase):
         os.remove(file_path)
         self.assertEqual(result, [3])
 
-    @unittest.skip("demonstrating skipping")
     def test_word_count(self):
         namespace = Namespace(byte=False, line=False, word=True, character=False)
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as temp_file:
@@ -45,7 +44,6 @@ class TestCCWC(unittest.TestCase):
         os.remove(file_path)
         self.assertEqual(result, [6])
     
-    @unittest.skip("demonstrating skipping")
     def test_character_count(self):
         namespace = Namespace(byte=False, line=False, word=False, character=True)
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as temp_file:
@@ -56,18 +54,16 @@ class TestCCWC(unittest.TestCase):
         os.remove(file_path)
         self.assertEqual(result, [11])
 
-    def test_default(self):
-        namespace = Namespace(byte=False, line=False, word=False, character=False)
+    def test_default_count(self):
+        namespace = Namespace(byte=True, line=True, word=True, character=False)
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as temp_file:
             temp_file.write("12345\n67890")
 
         file_path = temp_file.name
         result = ccwc(namespace, file_path)
-        #print(result)
         os.remove(file_path)
-        self.assertEqual(result, [11])
+        self.assertEqual(result, [11, 2, 2])
 
-    @unittest.skip("demonstrating skipping")
     def test_piped_data_character_option(self):
         namespace = Namespace(byte=False, line=False, word=False, character=True)
         original_stdin = sys.stdin

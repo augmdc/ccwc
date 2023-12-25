@@ -25,9 +25,15 @@ def ccwc(namespace, file_path):
 
     # Exclude this one if default
     if namespace.character and not sum([namespace.byte, namespace.line, namespace.word]) == 3:
-        file_encoding = locale.getpreferredencoding()
-        with open_file(file_path, 'rb') as file:
-            output.append(len(file.read().decode(file_encoding)))
+    # Check if input is sys.stdin
+        if file_path is sys.stdin:
+            # Count characters directly from sys.stdin
+            output.append(len(sys.stdin.read()))
+        else:
+            # Handle as a regular file
+            file_encoding = locale.getpreferredencoding()
+            with open_file(file_path, 'rb') as file:
+                output.append(len(file.read().decode(file_encoding)))
 
     return output
 
